@@ -1,43 +1,53 @@
-// ----  Script lié à la page index.html  ----
-/*******************************************/
-// ----  Lancement de l'API avec fetch  ----
-// ----  Et création des liens des fiches produits, une fiche par produit  ----
+// ----  Script lié à la page index.html  ----  //
 
-const url = "http://localhost:3000/api/products";
+/* ***************************************** */
 
-fetch(url)
-  .then((response) => response.json())
-  .then((data) => addCards(data))
-  .catch((error => console.log("Une erreur s'est produite !", error)))
+// ----  Lancement de l'API avec fetch  ----  //
 
-// for (i=0; i>7; i++) {
+fetch("http://localhost:3000/api/products")
+.then(function(response) {
+  if (response.ok) {
+    return response.json();
+  }
+})
+.then(function(allKanaps) {  // Ici, on récupère les données du fichier JSON pour pouvoir les utiliser
+  for (let article in allKanaps) {
+    addCards(allKanaps[article]);
+  }
+  console.log(allKanaps);
+})
+.catch(function(err) {
+  console.log("Une erreur est survenue !");
+})
 
-// }
+// ----  Création des liens des fiches produits, une fiche par produit  ----  //
 
-function addCards() {
+function addCards(kanap) {
+
+  // ----  Accès à 'items' / Création des balises  ----  //
   
   const items = document.getElementById('items');
   const linkTag = document.createElement('a');
-  linkTag.setAttribute('href', "./product.html?id=42");
   const articleTag = document.createElement('article');
   const imageTag = new Image();
   const titleTag = document.createElement('h3');
   const paragraphTag = document.createElement('p');
 
+  // ----  Ici, on rattache les éléments à leur "parent" et on leur donne un attribut ----  //
 
   items.appendChild(linkTag)
   linkTag.appendChild(articleTag)
+  linkTag.setAttribute('href', "./product.html?id=${kanap._id}");
   articleTag.appendChild(imageTag)
-  imageTag.src = 'http://localhost:3000/images/kanap01.jpeg'
+  imageTag.src = kanap.imageUrl;
+  imageTag.setAttribute('alt', ".product.html?id=${kanap.altTxt")
   titleTag.classList.add('productName')
-  titleTag.textContent = 'Kanap Sinopé';
+  titleTag.textContent = kanap.name;
   articleTag.appendChild(titleTag)
   paragraphTag.classList.add('productDescription')
-  paragraphTag.textContent = 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
+  paragraphTag.textContent = kanap.description;
   articleTag.appendChild(paragraphTag)
 }
-
-
 
 /* 
 
