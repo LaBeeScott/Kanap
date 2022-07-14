@@ -8,7 +8,7 @@ fetch("http://localhost:3000/api/products")
 .then(function(response) {
   if (response.ok) {
     return response.json();
-  }
+  };  
 })
 .then(function(allKanaps) {  // Ici, on récupère les données du fichier JSON pour pouvoir les utiliser
   for (let article in allKanaps) {
@@ -18,14 +18,14 @@ fetch("http://localhost:3000/api/products")
 })
 .catch(function(err) {
   console.log("Une erreur est survenue !");
-})
+});
 
 // ----  Création des liens des fiches produits, une fiche par produit  ----  //
 
 function addCards(kanap) {
 
   // ----  Accès à 'items' / Création des balises  ----  //
-  
+
   const items = document.getElementById('items');
   const linkTag = document.createElement('a');
   const articleTag = document.createElement('article');
@@ -34,20 +34,21 @@ function addCards(kanap) {
   const paragraphTag = document.createElement('p');
 
   // ----  Ici, on rattache les éléments à leur "parent" et on leur donne un attribut ----  //
+  // ----  On récupère aussi les données dont on a besoin (id, texte alt et description) ----  //
 
-  items.appendChild(linkTag)
-  linkTag.appendChild(articleTag)
-  linkTag.setAttribute('href', "./product.html?id=${kanap._id}");
-  articleTag.appendChild(imageTag)
+  items.appendChild(linkTag);
+  linkTag.appendChild(articleTag);
+  linkTag.setAttribute('href', "./product.html?id=" + kanap._id);
+  articleTag.appendChild(imageTag);
   imageTag.src = kanap.imageUrl;
-  imageTag.setAttribute('alt', ".product.html?id=${kanap.altTxt")
-  titleTag.classList.add('productName')
+  imageTag.setAttribute('alt', `${kanap.altTxt}`);
+  titleTag.classList.add('productName');
   titleTag.textContent = kanap.name;
-  articleTag.appendChild(titleTag)
-  paragraphTag.classList.add('productDescription')
+  articleTag.appendChild(titleTag);
+  paragraphTag.classList.add('productDescription');
   paragraphTag.textContent = kanap.description;
-  articleTag.appendChild(paragraphTag)
-}
+  articleTag.appendChild(paragraphTag);
+};
 
 /* 
 
